@@ -15,24 +15,16 @@ type BankAccount struct {
 type Customer struct {
 	Ip         *string `json:"ip"`
 	FirstName  *string `json:"first_name"`
-	MiddleName *string `json:"middle_name"`
 	LastName   *string `json:"last_name"`
 	Email      string  `json:"email"`
 	Phone      string  `json:"phone"`
 }
 
-func (self *Customer) MakeFio() string {
+func (self *Customer) MakeFullName() string {
 	out := ""
-	firstName, middleName, lastName := self.FirstName, self.MiddleName, self.LastName
+	firstName, lastName := self.FirstName, self.LastName
 	if firstName != nil && len(*firstName) != 0 {
 		out = *firstName
-	}
-
-	if middleName != nil && len(*middleName) != 0 {
-		if out != "" {
-			out += " "
-		}
-		out += *middleName
 	}
 
 	if lastName != nil && len(*lastName) != 0 {

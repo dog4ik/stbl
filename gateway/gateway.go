@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/dog4ik/stbl/connect"
@@ -257,7 +258,7 @@ func (self *GatewayClient) Payment(req connect.PayoutRequest, logger *connect.Lo
 		TransferMethod: "QR_CODE",
 		BankName:       "",
 		ExternalID:     req.Payment.Token,
-		AdditionalData: PaymentAdditionalData{},
+		AdditionalData: PaymentAdditionalData{FullName: req.Params.Customer.MakeFullName()},
 		ClientID:       "",
 	}
 
@@ -273,10 +274,12 @@ func (self *GatewayClient) Payout(req connect.PayoutRequest, logger *connect.Log
 		Amount:         float64(*req.Payment.GatewayAmount) / 100.0,
 		TransferMethod: "CBU",
 		BankCardNumber: "",
-		PhoneNumber:    "",
+		PhoneNumber:    req.Params.Customer.Phone,
 		BankName:       "",
 		AdditionalData: &PayoutAdditionalData{
-			CBU: *req.Params.BankAccount.AccountNumber,
+			CBU:        *req.Params.BankAccount.AccountNumber,
+			CustomerID: strconv.Itoa(req.Payment.LeadId),
+			FullName:   req.Params.Customer.MakeFullName(),
 		},
 		ExternalID: req.Payment.Token,
 	}
