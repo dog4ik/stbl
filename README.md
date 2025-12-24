@@ -2,7 +2,6 @@
 
 ### Required env variables
 
-- CALLBACK_URL - Callback url gateway should send callbacks to
 - DATABASE_PATH - Path to sqlite database
 - PORT - Port server listens on
 - SIGN_KEY - Sign key to sign/ecrypt gateway connect callbacks
